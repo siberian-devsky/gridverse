@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "rootDir": "./",
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true
-  }
-}
+    "target": "ES2022",                      // Good baseline for modern JS
+    "module": "NodeNext",                    // Required for Node.js compatibility
+    "lib": ["ES2022"],                       // Standard library features
+    "outDir": "build",                       // Where compiled .js files go
+    "rootDir": "src",                        // Where your source .ts files live
+    "strict": true,                          // Enables all strict type checks
+    "noImplicitAny": true,                   // Prevents silent 'any' types
+    "esModuleInterop": true,                 // Allows default imports from CommonJS modules
+    "resolveJsonModule": true,               // Enables importing JSON files
+    "forceConsistentCasingInFileNames": true,// Avoids casing issues on different OSes
+    "skipLibCheck": true,                    // Speeds up build by skipping .d.ts type checking
+    "moduleResolution": "NodeNext"           // Required for Node.js module resolution
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+} 

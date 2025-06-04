@@ -10,7 +10,8 @@ export default function Grid() {
             {
                 id: index, 
                 age: 1, 
-                name: 'Cell ' + index.toString()
+                name: 'Cell ' + index.toString(),
+                bgColor: 'bg-gray-700'
             })
         )
     )
@@ -18,9 +19,10 @@ export default function Grid() {
     // fetch cell data from the db
     useEffect(() => {
         const fetchCellData = async() => {
-            await fetch('api/celldata')
+            await fetch('http://localhost:4000/api/cells')
                 .then(resp => resp.json())
-                .then(data => setCellData(data))
+                .then(data => setCellData(data.cells))
+                // .then(data => console.log(data.data))    // debug
                 .catch(err => console.error(err))
         }
         fetchCellData()
@@ -38,6 +40,7 @@ export default function Grid() {
                         id={cell.id}
                         name={cell.name}
                         age={cell.age}
+                        bgColor={cell.bgColor}
                     />
                 ))}
             </div>

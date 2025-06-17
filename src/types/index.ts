@@ -1,11 +1,8 @@
-export interface StockCell {
+export interface CellData {
   id: number;
-  ticker: string;
-  priceCurrent: number;
-  priceDelta: number;
-  priceDeltaPercent: number;
-  priceTimestamp: Date;
-  priceHigh: number;
-  priceLow: number;
-  updatedAt: Date;
+  name: string;
+  icon: string;
+  iconCode: string;
+  currentValue: number;
+  lastUpdated: Date;
 }

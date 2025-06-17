@@ -5,27 +5,23 @@ import { CellData } from '@/types';
 import Header from '@/components/Header'
 
 export default function Grid() {
-    const [cellData, setCellData] = useState<CellData[]>(
-        Array.from({length: 9}).fill(null).map((_, index) => (
-            {
-                id: index, 
-                age: 1, 
-                name: 'Cell ' + index.toString(),
-                bgColor: 'bg-gray-700'
-            })
-        )
-    )
+    const [cells, setCells] = useState<CellData[]>([])
 
     // fetch cell data from the db
     useEffect(() => {
-        const fetchCellData = async() => {
-            await fetch('http://localhost:4000/api/cells')
-                .then(resp => resp.json())
-                .then(data => setCellData(data.cells))
-                // .then(data => console.log(data.data))    // debug
-                .catch(err => console.error(err))
+        const fetchAllCells = async () => {
+            try {
+                const resp = await fetch('http://localhost:4000/api/v1/cells')
+                const data = await resp.json()
+
+                console.log("data: ", data)
+                setCells(data)
+            } catch (err) {
+                console.log("data: ", err)
+            }
         }
-        fetchCellData()
+
+        fetchAllCells()
     }, [])
 
     return(
@@ -34,13 +30,15 @@ export default function Grid() {
             <div
                 className='grid grid-cols-3 gap-8 max-h-3/4'
             >
-                {cellData.map((cell, index) => (
+                {cells.map((cell, index) => (
                     <Cell 
                         key={index}
                         id={cell.id}
                         name={cell.name}
-                        age={cell.age}
-                        bgColor={cell.bgColor}
+                        icon={cell.icon}
+                        iconCode={cell.iconCode}
+                        currentValue={cell.currentValue}
+                        lastUpdated={cell.lastUpdated}
                     />
                 ))}
             </div>

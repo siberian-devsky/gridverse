@@ -1,4 +1,4 @@
-import ThemeToggle from "./ThemeToggle"
+// import ThemeToggle from "./ThemeToggle"
 
 export default function Header() {
     return(
@@ -7,7 +7,7 @@ export default function Header() {
                 w-screen h-16 flex flex-row items-center justify-end
                 px-4 py-2 backdrop-blur-2xl"
         >
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
         </header>
     )
 }

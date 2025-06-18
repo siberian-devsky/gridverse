@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 
 console.log(planets)
 
-async function seed() {
+export default async function seed() {
     await prisma.basicCell.deleteMany({})
         .then(() => console.log('✅ Purged basicCells'))
         .catch((err) => {

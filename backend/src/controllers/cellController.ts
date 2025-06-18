@@ -4,37 +4,59 @@ import { PrismaClient } from "../generated/prisma";
 const prisma = new PrismaClient()
 
 // get all cells
-export async function getAllCells(req: Request, res: Response) {
+export async function getAllCells (req: Request, res: Response): Promise<Response> {
     try {
         const celldata = await prisma.basicCell.findMany()
-        res.status(200).json(celldata)
+        return res.status(200).json(celldata)
     } catch (err) {
         console.error(err)
-        res.status(500).json({ error: "Internal Server Error" })
-    } finally {
-        prisma.$disconnect()
+        return res.status(500).json({ error: "Internal Server Error" })
     }
 }
 
 // get one cell by name
-export async function getOneCellByName(req: Request, res: Response) {
+export async function getOneCellByName (req: Request, res: Response): Promise<Response> {
     try {
         const name = req.params.name
         const cell = await prisma.basicCell.findFirst({
             where: {name: name}
         })
         if (cell) {
-            res.status(200).json(cell)
+            return res.status(200).json(cell)
         } else {
-            res.status(404).json({ notfound: `${name}` })
+            return res.status(404).json({ notfound: `${name}` })
         }
 
     } catch (err) {
         console.error(err)
-        res.status(500).json({ error: "Internal Server Error" })
-    } finally {
-        prisma.$disconnect()
+        return res.status(500).json({ error: "Internal Server Error" })
     }
 }
 
-// get 
+// create a cell
+export async function createCell (req: Request, res: Response): Promise<Response> {
+    // validate the form data
+    const { name, icon, iconCode, currentValue } = req.body
+    if (!name || !icon || !iconCode || currentValue === undefined) {
+        return res.status(400).json({ error: "bad request" });
+    }   
+
+    // check for existing
+    const alreadyHere = await prisma.basicCell.findFirst({ where: {name: name} })
+    if (alreadyHere) return res.status(400).json({ error: `${name} already exists` });
+
+    try {
+        // create
+        const newCell = await prisma.basicCell.create({
+            data: {
+                name: name,
+                icon: icon,
+                iconCode: iconCode,
+                currentValue: currentValue
+            }
+        });
+        return res.status(201).json(newCell)
+    } catch (err) {
+        return res.status(500).json({ error: "server error", err })
+    }
+}

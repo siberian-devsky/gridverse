@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 async function updateOne() {
     try {
         const update: BasicCell = await prisma.basicCell.update({
-            where: { name: 'pluto'},
+            where: { name: 'jupiter'},
             data: {
                 name: 'Sol',
                 icon: "☉",

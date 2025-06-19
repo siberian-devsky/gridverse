@@ -1,5 +1,10 @@
 [
   {
+    "name": "Sol",
+    "icon": "☉",
+    "iconCode": "\\u2609"
+  },
+  {
     "name": "Mercury",
     "icon": "☿",
     "iconCode": "\\u263F"

@@ -25,10 +25,11 @@ export default function Grid() {
     }, [])
 
     return(
-        <main className="w-full h-screen flex flex-col justify-center items-center">
+        <main className="w-full flex flex-row justify-center items-center">
             <Header />
             <div
-                className='grid grid-cols-3 gap-8 max-h-3/4'
+                id='gridverseGrid'
+                className='m-4 grid translate-y-24 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'
             >
                 {cells.map((cell, index) => (
                     <Cell 

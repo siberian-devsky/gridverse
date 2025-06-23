@@ -8,6 +8,7 @@ const prisma = new PrismaClient()
 // GET /cells - get all cells
 export async function getAllCells(req: Request, res: Response): Promise<Response> {
   try {
+    console.debug("this is it")
     const celldata = await prisma.basicCell.findMany()
     return res.status(200).json(celldata)
   } catch (err) {

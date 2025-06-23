@@ -1,6 +1,7 @@
 'use client'
-import ThemeToggleButton from "../Theme/ThemeToggleButton"
-
+// import ThemeToggleButton from "../Theme/ThemeToggleButton"
+import HomeGrownToggle
+ from "../Theme/HomeGrownToggle"
 export default function Header() {
     return(
         <header 
@@ -12,7 +13,8 @@ export default function Header() {
                 <button className="hover:bg-purple-700 w-auto p-2 rounded-4xl border-4 border-blue-400 bg-emerald-500/70">Add Cell</button>
                 <button className="w-auto p-2 rounded-4xl border-4 border-blue-400 bg-pink-500/70">Remove Cell</button>
             </div>
-            <ThemeToggleButton />
+            {/* <ThemeToggleButton /> */}
+            <HomeGrownToggle />
         </header>
     )
 }

@@ -11,7 +11,7 @@ export default function Grid() {
     useEffect(() => {
         const fetchAllCells = async () => {
             try {
-                const resp = await fetch('http://localhost:4000/api/v1/cells')
+                const resp = await fetch('http://localhost:8080/api/v1/cells')
                 const data = await resp.json()
 
                 console.log("data: ", data)

@@ -3,10 +3,14 @@
 import HomeGrownToggle from "../Theme/HomeGrownToggle"
 
 type HeaderProps = {
-    showModal: React.Dispatch<React.SetStateAction<boolean>>
+    showAddCellModal: React.Dispatch<React.SetStateAction<boolean>>,
+    showDeleteCellModal: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function Header({ showModal }: HeaderProps ) {
+export default function Header({
+    showAddCellModal: showAddCellModal,
+    showDeleteCellModal: showDeleteCellModal
+}: HeaderProps ) {
     return(
         <header 
             className="fixed top-0 left-0 border border-black bg-purple-500 z-10
@@ -15,12 +19,12 @@ export default function Header({ showModal }: HeaderProps ) {
         >
             <div className="flex gap-4">
                 <button className="hover:bg-purple-700 w-auto p-2 rounded-4xl border-4 border-blue-400 bg-emerald-500/70"
-                    onClick={() => showModal(true)}
+                    onClick={() => showAddCellModal(true)}
                     >
                     Add Cell
                 </button>
                 <button className="hover:bg-purple-700 w-auto p-2 rounded-4xl border-4 border-blue-400 bg-pink-500/70"
-                    onClick={() => showModal(false)}
+                    onClick={() => showDeleteCellModal(true)}
                 >
                     Remove Cell
                 </button>

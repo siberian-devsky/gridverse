@@ -4,10 +4,12 @@ import Cell from '@/components/Cell';
 import { CellData } from '@/types';
 import Header from '@/components/Header'
 import AddCellModal from '@/components/Cell/modals/AddCellModal';
+import DeleteCellModal from '@/components/Cell/modals/DeleteCellModal';
 
 export default function Grid() {
     const [cells, setCells] = useState<CellData[]>([])
-    const [showModal, setShowModal] = useState(false)
+    const [showAddCellModal, setShowAddCellModal] = useState(false)
+    const [showDeleteCellModal, setShowDeleteCellModal] = useState(false)
 
     // fetch cell data from the db
     useEffect(() => {
@@ -28,17 +30,20 @@ export default function Grid() {
 
     // bg behavior on modal
     useEffect( () => {
-        if (showModal) {
+        if (showAddCellModal || showDeleteCellModal) {
             document.body.style.overflow = 'hidden'
         } else {
             document.body.style.overflow = 'auto'
         }
-    }, [showModal])
+    }, [showAddCellModal, showDeleteCellModal])
 
-    // kill the modal
+    // kill all modals
     useEffect( () => {
         const handleKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setShowModal(false)
+            if (e.key === 'Escape') {
+                setShowAddCellModal(false)
+                setShowDeleteCellModal(false)
+            }
         }
 
         window.addEventListener('keydown', handleKey)
@@ -47,7 +52,10 @@ export default function Grid() {
 
     return(
         <main className="relative w-full flex flex-row justify-center items-center">
-            <Header showModal={setShowModal}/>
+            <Header 
+                showAddCellModal={setShowAddCellModal}
+                showDeleteCellModal={setShowDeleteCellModal}
+            />
             <div className='relative w-full h-screen'>
                 <div
                     id='gridverseGrid'
@@ -65,9 +73,14 @@ export default function Grid() {
                         />
                     ))}
                 </div>
-                {showModal && (
+                {showAddCellModal && (
                     <div className="fixed inset-0 backdrop-brightness-50 flex items-center justify-center z-50">
                         <AddCellModal />
+                    </div>
+                )}
+                {showDeleteCellModal && (
+                    <div className="fixed inset-0 backdrop-brightness-50 flex items-center justify-center z-50">
+                        <DeleteCellModal />
                     </div>
                 )}
             </div>

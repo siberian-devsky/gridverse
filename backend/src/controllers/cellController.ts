@@ -38,6 +38,8 @@ export async function getOneCellByName(req: Request, res: Response): Promise<Res
 export async function createCell(req: Request, res: Response): Promise<Response> {
   const { name, icon, iconCode, currentValue } = req.body
 
+  console.log("// POST /cells - create a new cell")
+
   // Validate payload
   if (!name || !icon || !iconCode || currentValue === undefined) {
     return res.status(400).json({ error: "Missing required cell fields" })
@@ -86,4 +88,34 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
     console.error("updateCell error:", err)
     return res.status(500).json({ error: "Internal Server Error" })
   }
+}
+
+// DELETE /cells/delete/:name - delete cell by name
+export async function deleteCellByName(req: Request, res: Response): Promise<Response> {
+  const { name } = req.body
+
+  if (!name) {
+    return res.status(400).json({
+      status: res.status,
+      message: "no name was input for me to delete",
+    })
+  }
+
+  try {
+    const deleted = await prisma.basicCell.delete({
+      where: {name: name}
+    })
+    console.log(`${deleted} was purged`)
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      status: res.status,
+      message: `could not delete ${name}`
+    })
+  }
+
+  return res.status(204).json({
+    status: 204,
+    message: `${name} deleted`
+  })
 }

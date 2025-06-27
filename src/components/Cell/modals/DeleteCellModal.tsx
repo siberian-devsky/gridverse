@@ -1,16 +1,8 @@
-import { SetStateAction, useState } from "react"
+import { useState } from "react"
+import { CellModalProps, opStatus } from "@/types"
 import CloseButton from "./CloseButton"
 
-type CellModalProps = {
-    setShowModal: React.Dispatch<SetStateAction<boolean>>
-}
-
-type opStatus = {
-    message: string | null
-    status: 'ok' | 'nok'
-}
-
-export default function DeleteCellModal( {setShowModal}: CellModalProps ) {
+export default function DeleteCellModal( {setShowModal, setCells}: CellModalProps ) {
     const [opStatus, setOpStatus] = useState<opStatus>( {message: null, status: 'ok'} )
 
     const deleteCell = async (name: string) => {
@@ -27,7 +19,8 @@ export default function DeleteCellModal( {setShowModal}: CellModalProps ) {
                 console.error(`${data.status}: ${data.message}`)
                 setOpStatus( {message: data.message, status: 'nok'} )
             } else {
-                console.log(data)
+                console.log(data.data)
+                setCells(prev => prev.filter( cell => cell.name != data.data.name ))
                 setOpStatus( {message: `${name} deleted`, status: 'ok'} )
             }
 
@@ -49,7 +42,6 @@ export default function DeleteCellModal( {setShowModal}: CellModalProps ) {
             return { error: opStatus}
         } else {
             deleteCell(name)
-            console.log(opStatus)
         }
     }
 
@@ -57,11 +49,11 @@ export default function DeleteCellModal( {setShowModal}: CellModalProps ) {
         <div className='absolute w-[300px] h-[400px] border-4 border-emerald-400
             bg-slate-800 flex flex-col items-center justify-center'
         >
+            <CloseButton setShowModal={setShowModal}/>
             <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>
                 <input name="name" type="text" className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' autoFocus/>               
                 <button type='submit' className='w-3/4 bg-pink-800 rounded-full tracking-widest py-1'>Delete Cell</button>
             </form>
-            <CloseButton setShowModal={setShowModal}/>
             {opStatus.message && 
                 <div className={opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}>
                     {opStatus.message}

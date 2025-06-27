@@ -1,11 +1,10 @@
+import { useState } from "react";
 import { PostCellData } from "@/types";
+import { CellModalProps, opStatus } from "@/types"
 import CloseButton from "./CloseButton";
 
-type CellModalProps = {
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export default function AddCellModal( {setShowModal}: CellModalProps ) {
+export default function AddCellModal( {setShowModal, setCells}: CellModalProps ) {
+    const [opStatus, setOpStatus] = useState<opStatus>({ message: null, status: 'ok' })
 
     const createCell = async(data: PostCellData) => {
         try {
@@ -16,27 +15,39 @@ export default function AddCellModal( {setShowModal}: CellModalProps ) {
             })
 
             const cellData = await resp.json()
-            console.log(cellData)
+
+            if (!resp.ok) {
+                setOpStatus({ message: 'This cell already exists', status: 'ok' })
+            } else {
+                setOpStatus({ message: `${cellData.data.name} created`, status: 'ok' })
+                setCells(prev => [...prev, cellData.data])
+            }
 
         } catch (err) {
+            setOpStatus({ message: `Could Not Create Cell: ${err}`, status: 'nok' })
             console.error('could not create cell: ', err)
         }
     }
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        const form = e.currentTarget
+        e.preventDefault();
+        const form = e.currentTarget;
+        const name = form.itemName.value.trim();
+        const icon = form.icon.value.trim();
+        const iconCode = form.iconCode.value.trim();
+        const cv = Number(form.currentValue.value);
 
-        const formData = new FormData(form)
+        const missing: string[] = []
+        if (!name) missing.push('name field')
+        if (!icon)  missing.push('icon field')
+        if (!iconCode) missing.push('icon code field')
 
-        const data = {
-            name: formData.get('name')?.toString().trim() || 'errornoname',
-            icon: formData.get('icon')?.toString().trim() || 'errornoicon',
-            iconCode: formData.get('iconCode')?.toString().trim() || 'errornoiconcode',
-            currentValue: Number(form.currentValue.value),
-        };
+        if (missing.length > 0) {
+            setOpStatus({ message: `missing: ${missing}`, status: 'nok' })
+            return;
+        }
 
-        createCell(data)
+        createCell({ name, icon, iconCode, currentValue: cv });
     }
 
     return (
@@ -44,13 +55,18 @@ export default function AddCellModal( {setShowModal}: CellModalProps ) {
             bg-slate-800 flex flex-col items-center justify-center'
         >
             <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>
-                <input name='name' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Add a name' autoFocus />
+                <input name='itemName' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Add a name' autoFocus />
                 <input name='icon' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Add an icon or emoji' />
                 <input name='iconCode' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Now add its code' />
                 <input name='currentValue' type='number' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Pick a number' />
                 <button type='submit' className='w-3/4 bg-lime-600 text-black rounded-full tracking-widest py-1'>Add Cell</button>
             </form>
             <CloseButton setShowModal={setShowModal} />
+            {opStatus.message && 
+                <div className={`px-2 ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}`}>
+                    {opStatus.message}
+                </div>
+            }
         </div>
     )
 }

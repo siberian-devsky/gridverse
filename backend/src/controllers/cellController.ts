@@ -10,20 +10,20 @@ export async function getAllCells(req: Request, res: Response): Promise<Response
 
     if (!cellData) {
       return res.status(404).json({
-        status: 'not found',
+        status: 404,
         message: 'Cells not found'
       })
     }
 
     return res.status(200).json({
-      status: 'ok',
+      status: 200,
       message: 'get all cells ok',
       data: cellData
     })
   } catch (err) {
     console.error("getAllCells error:", err)
     return res.status(500).json({
-      status: 'error',
+      status: 500,
       message: "Internal Server Error"
     })
   }
@@ -37,34 +37,32 @@ export async function getOneCellByName(req: Request, res: Response): Promise<Res
 
     if (!cell) {
       return res.status(404).json({
-        status: 'not found',
+        status: 404,
         message: `Cell '${name}' not found`
       })
     }
 
     return res.status(200).json({
-      status: 'ok',
+      status: 200,
       message: 'Cells fetched',
     })
   } catch (err) {
     console.error("getOneCellByName error:", err)
     return res.status(500).json({
-      status: 'error',
+      status: 500,
       mesage: "Internal Server Error"
     })
   }
 }
 
-// POST /cells - create a new cell
+// POST /cells - add a new cell
 export async function createCell(req: Request, res: Response): Promise<Response> {
   const { name, icon, iconCode, currentValue } = req.body
-
-  console.log("// POST /cells - create a new cell")
 
   // Validate payload
   if (!name || !icon || !iconCode || currentValue === undefined) {
     return res.status(400).json({
-      status: 'bad request',
+      status: 400,
       message: "Missing required cell fields"
     })
   }
@@ -79,14 +77,14 @@ export async function createCell(req: Request, res: Response): Promise<Response>
       })
   
       return res.status(201).json({
-        status: 'created',
+        status: 201,
         message: `${name} created`,
         data: newCell
       })
 
     } else {
       return res.status(409).json({
-        status: 'resource conflict',
+        status: 409,
         message: `${name} already exists`
       })
     }
@@ -94,7 +92,7 @@ export async function createCell(req: Request, res: Response): Promise<Response>
   } catch (err) {
     console.error("createCell error:", err)
     return res.status(500).json({
-      status: 'error',
+      status: 500,
       message: "Internal Server Error"
     })
   }
@@ -113,7 +111,7 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
 
     if (!record) {
       return res.status(404).json({
-        status: 'not found',
+        status: 404,
         message: `Cell '${name}' not found`
       })
     }
@@ -130,7 +128,7 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
   } catch (err) {
     console.error("updateCell error:", err)
     return res.status(500).json({
-      status: 'error',
+      status: 500,
       message: "Internal Server Error"
     })
   }
@@ -143,7 +141,7 @@ export async function deleteCellByName(req: Request, res: Response): Promise<Res
 
   if (!name) {
     return res.status(400).json({
-      status: 'bad request',
+      status: 400,
       message: "no name was input for me to delete",
     })
   }
@@ -156,22 +154,23 @@ export async function deleteCellByName(req: Request, res: Response): Promise<Res
 
       console.log(`${name} was purged`)
       return res.status(200).json({
-          status: 'ok',
-          message: `${name} deleted`
+          status: 200,
+          message: `${name} deleted`,
+          data: deleted
       })
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err.code === 'P2025') {
         return res.status(404).json({
-            status: 'not_found',
+            status: 404,
             message: `${name} does not exist`
         })
     }
 
       console.error(err)
       return res.status(500).json({
-          status: 'error',
+          status: 500,
           message: 'Unexpected error during delete'
       })
   }

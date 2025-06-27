@@ -1,16 +1,38 @@
-import React from "react"
+import { SetStateAction, useState } from "react"
+import CloseButton from "./CloseButton"
 
-export default function DeleteCellModal() {
+type CellModalProps = {
+    setShowModal: React.Dispatch<SetStateAction<boolean>>
+}
+
+type opStatus = {
+    message: string | null
+    status: 'ok' | 'nok'
+}
+
+export default function DeleteCellModal( {setShowModal}: CellModalProps ) {
+    const [opStatus, setOpStatus] = useState<opStatus>( {message: null, status: 'ok'} )
+
     const deleteCell = async (name: string) => {
         try {
-            const deleted = await fetch(`http://localhost:8080/api/v1/cells/delete/${name}`, {
+            const resp = await fetch(`http://localhost:8080/api/v1/cells/delete/${name}`, {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({ name: name })
             })
-            const data = await deleted.json()
-            console.log(data)
+
+            const data = await resp.json()
+
+            if (!resp.ok) {
+                console.error(`${data.status}: ${data.message}`)
+                setOpStatus( {message: data.message, status: 'nok'} )
+            } else {
+                console.log(data)
+                setOpStatus( {message: `${name} deleted`, status: 'ok'} )
+            }
+
         } catch (err) {
+            setOpStatus( {message:`${err}`, status: 'nok'} )
             console.log(err)
         }
     }
@@ -20,24 +42,31 @@ export default function DeleteCellModal() {
         const form = e.currentTarget
 
         const formData = new FormData(form)
-        const name = formData.get('name')?.toString().trim() || 'nameeman'
+        const name = formData.get('name')?.toString().trim() || 'testThisGetsRidOfTheTypeErrorOnLIne51'
 
-        if (!formData) {
-            return { error: 'please enter a name'}
+        if (!formData || name === 'testThisGetsRidOfTheTypeErrorOnLIne51') {
+            setOpStatus( {message: 'please enter a name', status: 'nok'} )
+            return { error: opStatus}
         } else {
             deleteCell(name)
-            console.log(`${name} deleted`)
+            console.log(opStatus)
         }
     }
 
     return (
-        <div className='w-[300px] h-[400px] border-4 border-emerald-400
+        <div className='absolute w-[300px] h-[400px] border-4 border-emerald-400
             bg-slate-800 flex flex-col items-center justify-center'
         >
-            <form className='flex flex-col justify-center gap-2' onSubmit={handleSubmit}>
-                <input name="name" type="text" className="border-2 border-pink-800"/>               
-                <button type='submit' className='bg-pink-800'>delete cell</button>
+            <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>
+                <input name="name" type="text" className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' autoFocus/>               
+                <button type='submit' className='w-3/4 bg-pink-800 rounded-full tracking-widest py-1'>Delete Cell</button>
             </form>
+            <CloseButton setShowModal={setShowModal}/>
+            {opStatus.message && 
+                <div className={opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}>
+                    {opStatus.message}
+                </div>
+            }
         </div>
     )
 }

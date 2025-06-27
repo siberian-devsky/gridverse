@@ -1,6 +1,11 @@
 import { PostCellData } from "@/types";
+import CloseButton from "./CloseButton";
 
-export default function AddCellModal() {
+type CellModalProps = {
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function AddCellModal( {setShowModal}: CellModalProps ) {
 
     const createCell = async(data: PostCellData) => {
         try {
@@ -35,16 +40,17 @@ export default function AddCellModal() {
     }
 
     return (
-        <div className='w-[300px] h-[400px] border-4 border-emerald-400
+        <div className='relative w-[300px] h-[400px] border-4 border-emerald-400
             bg-slate-800 flex flex-col items-center justify-center'
         >
-            <form className='flex flex-col justify-center gap-2' onSubmit={handleSubmit}>
-                <input name='name' type='text' className='border-2 border-pink-800' placeholder='Add a name' />
-                <input name='icon' type='text' className='border-2 border-pink-800' placeholder='Add an icon or emoji' />
-                <input name='iconCode' type='text' className='border-2 border-pink-800' placeholder='Now add its code' />
-                <input name='currentValue' type='number' className='border-2 border-pink-800' placeholder='Pick a numner' />
-                <button type='submit' className='bg-pink-800'>add cell</button>
+            <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>
+                <input name='name' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Add a name' autoFocus />
+                <input name='icon' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Add an icon or emoji' />
+                <input name='iconCode' type='text' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Now add its code' />
+                <input name='currentValue' type='number' className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' placeholder='Pick a number' />
+                <button type='submit' className='w-3/4 bg-lime-600 text-black rounded-full tracking-widest py-1'>Add Cell</button>
             </form>
+            <CloseButton setShowModal={setShowModal} />
         </div>
     )
 }

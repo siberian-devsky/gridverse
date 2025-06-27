@@ -17,14 +17,12 @@ export default function Grid() {
             try {
                 const resp = await fetch('http://localhost:8080/api/v1/cells')
                 const data = await resp.json()
-
-                console.log("data: ", data)
-                setCells(data)
+                setCells(data.data)
+                console.log(cells)
             } catch (err) {
                 console.log("data: ", err)
             }
         }
-
         fetchAllCells()
     }, [])
 
@@ -64,6 +62,7 @@ export default function Grid() {
                     {cells.map((cell, index) => (
                         <Cell
                             key={index}
+                            renderIndex={index}
                             id={cell.id}
                             name={cell.name}
                             icon={cell.icon}
@@ -75,12 +74,12 @@ export default function Grid() {
                 </div>
                 {showAddCellModal && (
                     <div className="fixed inset-0 backdrop-brightness-50 flex items-center justify-center z-50">
-                        <AddCellModal />
+                        <AddCellModal setShowModal={setShowAddCellModal}/>
                     </div>
                 )}
                 {showDeleteCellModal && (
                     <div className="fixed inset-0 backdrop-brightness-50 flex items-center justify-center z-50">
-                        <DeleteCellModal />
+                        <DeleteCellModal setShowModal={setShowDeleteCellModal} />
                     </div>
                 )}
             </div>

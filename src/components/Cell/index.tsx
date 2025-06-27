@@ -2,7 +2,11 @@
 import { CellData } from '@/types';
 import { useState } from 'react';
 
-export default function Cell({ ...props }: CellData) {
+interface CellProps extends CellData {
+    renderIndex: number
+}
+
+export default function Cell({ renderIndex, ...props }: CellProps) {
     const [on, setOn] = useState(false)
 
     return (
@@ -10,7 +14,7 @@ export default function Cell({ ...props }: CellData) {
             id={props.id.toString()}
             className=
                 {`w-[180px] aspect-square border-4 border-blue-400
-                ${props.id % 2===0 ? 'bg-pink-600': 'bg-emerald-500'}
+                ${renderIndex % 2===0 ? 'bg-pink-600': 'bg-emerald-500'}
                 ${on ? '' : 'opacity-50'}
                 rounded-4xl`}
             onClick={ () => setOn(!on) }

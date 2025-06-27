@@ -1,21 +1,19 @@
-import { SetStateAction } from "react"
+import { CellModalProps } from "@/types"
 
-type ButtonProps = {
-    setShowModal: React.Dispatch<SetStateAction<boolean>>
-}
+type CloseButtonProps = Pick<CellModalProps, 'setShowModal'>
 
-export default function CloseButton({ setShowModal }: ButtonProps) {
+export default function CloseButton({ setShowModal }: CloseButtonProps) {
     return (
         <div className="min-w-20 absolute top-3 left-3 group flex flex-row gap-1 items-center ">
             <button
                 className="w-6 h-6 bg-pink-500 text-black cursor-pointer
-                           flex items-center justify-center opacity-50 rounded-full"
+                           flex items-center justify-center opacity-80 rounded-full"
                 onClick={() => setShowModal(false)}
             >
                 X
             </button>
             <div
-                className="text-xs text-pink-400 opacity-50"
+                className="text-xs text-pink-400 opacity-80"
             >
                 esc
             </div>

@@ -51,7 +51,7 @@ export default function AddCellModal( {setShowModal, setCells}: CellModalProps )
     }
 
     return (
-        <div className='relative w-[300px] h-[400px] border-4 border-emerald-400
+        <div className='relative w-[300px] h-[400px] border-4 border-emerald-400 rounded-2xl
             bg-slate-800 flex flex-col items-center justify-center'
         >
             <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>

@@ -118,7 +118,12 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
 
     const updated = await prisma.basicCell.update({
       where: { id: record.id },
-      data: { name, icon, iconCode, currentValue }
+      data: {
+        name: name || record.name, // fallback to whatever is in the db
+        icon: icon || record.icon,
+        iconCode: iconCode || record.iconCode,
+        currentValue: currentValue || record.currentValue
+      }
     })
       return res.status(200).json({
         status: "Cell updated",
@@ -147,7 +152,6 @@ export async function deleteCellByName(req: Request, res: Response): Promise<Res
   }
 
   try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const deleted = await prisma.basicCell.delete({
           where: { name: name }
       })

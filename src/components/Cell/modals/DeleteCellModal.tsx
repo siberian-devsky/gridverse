@@ -46,7 +46,7 @@ export default function DeleteCellModal( {setShowModal, setCells}: CellModalProp
     }
 
     return (
-        <div className='absolute w-[300px] h-[400px] border-4 border-emerald-400
+        <div className='absolute w-[300px] h-[400px] border-4 border-emerald-400 rounded-2xl
             bg-slate-800 flex flex-col items-center justify-center'
         >
             <CloseButton setShowModal={setShowModal}/>

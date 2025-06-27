@@ -1,11 +1,14 @@
 'use client'
 import { CellData } from '@/types';
-import { useState } from 'react';
+// import { useState } from 'react';
 
+type CellProps = CellData & {
+    onClick?: () => void
+}
 
-export default function Cell({ ...props }: CellData) {
-    const [on, setOn] = useState(false)
-    const { id, name, icon } = props
+export default function Cell({ id, name, icon, onClick }: CellProps) {
+    // const [on, setOn] = useState(false)
+
     if (id === undefined || name === undefined || icon === undefined) return null
 
     return (
@@ -14,9 +17,9 @@ export default function Cell({ ...props }: CellData) {
             id={id.toString()}
             className=
                 {`w-[120px] aspect-square
-                ${on ? 'bg-lime-600 border-4 border-blue-600' : 'bg-slate-700/50'}
-                rounded-4xl`}
-            onClick={ () => setOn(!on) }
+                ${true ? 'text-green-500 border-4 border-blue-600' : 'bg-slate-500'}
+                rounded-2xl`}
+            onClick={ onClick }
         >
             <div className='flex flex-col gap-1.5'>
                 <h1 className='text-2xl'>{name}</h1>

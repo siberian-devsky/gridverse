@@ -4,6 +4,7 @@ import {
     getAllCells,
     getOneCellByName,
     createCell,
+    updateCell,
     deleteCellByName
 } from "../controllers/cellController";
 
@@ -17,9 +18,8 @@ router.get('/cells/:name', getOneCellByName)
 router.post('/cells/create', createCell)
 // @ts-expect-error - ditto
 router.delete('/cells/delete/:name', deleteCellByName)
-
-// router.put()
-// update a cell
+// @ts-expect-error - ditto
+router.put('/cells/update/:name', updateCell)
 
 
 export default router

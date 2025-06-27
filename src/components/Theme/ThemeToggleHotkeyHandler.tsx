@@ -7,7 +7,7 @@ export default function KeyHandler() {
     
     useEffect(() => {
         const handler = (e: KeyboardEvent) => {
-            if (e.key === 't' && (e.ctrlKey || e.metaKey)) {
+            if (e.key === 't' && (e.ctrlKey)) {
                 setTheme(theme === 'light' ? 'dark' : 'light')
             }
         }

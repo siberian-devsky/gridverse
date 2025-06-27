@@ -4,12 +4,15 @@ import Cell from '@/components/Cell';
 import { CellData } from '@/types';
 import Header from '@/components/Header'
 import AddCellModal from '@/components/Cell/modals/AddCellModal';
+import UpdateCellModal from '@/components/Cell/modals/UpdateCellModal';
 import DeleteCellModal from '@/components/Cell/modals/DeleteCellModal';
 
 export default function Grid() {
     const [cells, setCells] = useState<CellData[]>([])
     const [showAddCellModal, setShowAddCellModal] = useState(false)
+    const [showUpdateCellModal, setShowUpdateCellModal] = useState(false)
     const [showDeleteCellModal, setShowDeleteCellModal] = useState(false)
+    const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
 
     // fetch cell data from the db
     useEffect(() => {
@@ -23,7 +26,7 @@ export default function Grid() {
             }
         }
         fetchAllCells()
-    }, [])
+    }, [setCells])
 
     // bg behavior on modal
     useEffect( () => {
@@ -40,6 +43,7 @@ export default function Grid() {
             if (e.key === 'Escape') {
                 setShowAddCellModal(false)
                 setShowDeleteCellModal(false)
+                setShowUpdateCellModal(false)
             }
         }
 
@@ -56,7 +60,7 @@ export default function Grid() {
             <div className='relative w-full h-screen'>
                 <div
                     id='gridverseGrid'
-                    className='absolute w-full justify-center items-center -top-4 m-4 grid translate-y-24 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'
+                    className='absolute w-full place-items-center m-4 grid translate-y-24 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'
                 >
                     {cells.map((cell, index) => (
                         <Cell
@@ -67,6 +71,10 @@ export default function Grid() {
                             iconCode={cell.iconCode}
                             currentValue={cell.currentValue}
                             lastUpdated={cell.lastUpdated}
+                            onClick={ () => {
+                                setSelectedCell(cell)
+                                setShowUpdateCellModal(true)
+                            }}
                         />
                     ))}
                 </div>
@@ -75,6 +83,16 @@ export default function Grid() {
                         <AddCellModal 
                             setShowModal={setShowAddCellModal}
                             setCells={setCells}
+                        />
+                    </div>
+                )}
+                {showUpdateCellModal && selectedCell && (
+                    <div className="fixed inset-0 backdrop-brightness-50 flex items-center justify-center z-50">
+                        <UpdateCellModal
+                            setShowModal={setShowUpdateCellModal}   // just passing through
+                            setCells={setCells}                     // update main grid
+                            selectedCell={selectedCell}             // populates the update form with cell's curr. data
+                            setSelectedCell={setSelectedCell}       // sync this with local modal state tracking
                         />
                     </div>
                 )}

@@ -1,5 +1,4 @@
-import { PrismaClient } from "../../generated/prisma";
-import { BasicCell } from "../../generated/prisma";
+import { PrismaClient, BasicCell } from "../../src/generated/prisma";
 
 const prisma = new PrismaClient()
 

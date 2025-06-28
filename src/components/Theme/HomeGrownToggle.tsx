@@ -20,8 +20,8 @@ export default function HomeGrownToggle() {
       role="switch"
       aria-checked={isDark}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className={`flex w-12 h-4 rounded-full cursor-pointer transition-colors duration-300
-        ${isDark ? 'bg-slate-800 justify-end' : 'bg-white justify-start'}`}
+      className={`flex w-12 h-4 rounded-full cursor-pointer transition-all duration-300
+        ${isDark ? 'bg-white justify-end' : 'bg-slate-800 justify-start'}`}
     >
       <div className="w-6 h-6 rounded-full bg-emerald-500 transition-transform -translate-y-1">
         {theme === 'dark' ? <LightModeOutlined  /> : <DarkModeOutlined />}

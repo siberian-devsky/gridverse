@@ -85,7 +85,7 @@ export default function UpdateCellModal({
                 bg-slate-800 flex flex-col items-center justify-center'
             >
                 <CloseButton setShowModal={setShowModal} />
-                <form className='w-full flex flex-col items-center justify-center gap-4' onSubmit={handleSubmit}>
+                <form className='w-full flex flex-col items-center justify-center gap-4 grow-0 shrink-0' onSubmit={handleSubmit}>
                     <input
                         defaultValue={selectedCell?.name}
                         name='itemName'
@@ -114,11 +114,14 @@ export default function UpdateCellModal({
                         type='submit'
                         className='w-3/4 bg-lime-600 text-black rounded-full tracking-widest py-1'>Update</button>
                 </form>
-                {opStatus.message && 
-                    <div className={`px-2 ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}`}>
-                        {opStatus.message}
-                    </div>
-                }
+                <div className={
+                        `px-2 mt-4 min-h-[24px] transition-opacity duration-200
+                        ${opStatus.message ? 'opacity-100 visible' : 'opacity-0 invisible'}
+                        ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}
+                    `}
+                >
+                    {opStatus.message || '‎' /* invisible non-breaking space fallback */}
+                </div>
         </div>
     )
 }

@@ -13,7 +13,7 @@
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
-    "dataNuke": "ts-node /Users/jeff/code/gridverse/backend/src/tests/utils/dataSeeder.ts"
+    "dataNuke": "ts-node /Users/jeff/code/gridverse/backend/prisma/scripts/dataSeeder.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",

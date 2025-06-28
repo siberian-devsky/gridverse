@@ -17,7 +17,7 @@ export default function AddCellModal( {setShowModal, setCells}: CellModalProps )
             const cellData = await resp.json()
 
             if (!resp.ok) {
-                setOpStatus({ message: 'This cell already exists', status: 'ok' })
+                setOpStatus({ message: 'This cell already exists', status: 'nok' })
             } else {
                 setOpStatus({ message: `${cellData.data.name} created`, status: 'ok' })
                 setCells(prev => [...prev, cellData.data])
@@ -63,7 +63,7 @@ export default function AddCellModal( {setShowModal, setCells}: CellModalProps )
             </form>
             <CloseButton setShowModal={setShowModal} />
             {opStatus.message && 
-                <div className={`px-2 ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}`}>
+                <div className={`px-2 mt-4 ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}`}>
                     {opStatus.message}
                 </div>
             }

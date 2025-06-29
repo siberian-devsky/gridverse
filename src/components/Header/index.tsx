@@ -30,6 +30,16 @@ export default function Header({
         }
     }
 
+    function getButtonStyle() {
+        const base = 'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700'
+        if (showDeleteBoxes && numCellsMarked > 0)
+            return `${base} bg-red-500 text-white`
+        else if (showDeleteBoxes && numCellsMarked === 0)
+            return `${base} bg-yellow-400 text-black`
+        else
+            return `${base} hover:bg-red-500`
+    }
+
     return(
         <header 
             className="fixed top-0 left-0 z-50 border border-black bg-purple-500

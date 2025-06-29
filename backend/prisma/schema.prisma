@@ -19,6 +19,6 @@ model BasicCell {
   name          String    @unique
   icon          String    @unique
   iconCode      String    @unique
-  currentValue  Int
+  currentValue  Int       @default(42)
   updatedAt     DateTime  @updatedAt
 }

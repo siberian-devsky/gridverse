@@ -121,7 +121,7 @@ export default function UpdateCellModal({
             >
                 <CloseButton setShowModal={setShowModal} />
                 <form 
-                    className='w-full flex flex-col items-center justify-center gap-4 grow-0 shrink-0'
+                    className='w-full flex flex-col items-center justify-center gap-4'
                     onSubmit={handleSubmit}
                 >
                     <h1 className="tracking-wider text-emerald-400 font-bold text-2xl">

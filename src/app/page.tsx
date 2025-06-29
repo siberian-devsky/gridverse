@@ -9,10 +9,13 @@ import DeleteCellModal from '@/components/Cell/modals/DeleteCellModal';
 
 export default function Grid() {
     const [cells, setCells] = useState<CellData[]>([])
-    const [showAddCellModal, setShowAddCellModal] = useState(false)
-    const [showUpdateCellModal, setShowUpdateCellModal] = useState(false)
-    const [showDeleteCellModal, setShowDeleteCellModal] = useState(false)
+    const [showAddCellModal, setShowAddCellModal] = useState<boolean>(false)
+    const [showUpdateCellModal, setShowUpdateCellModal] = useState<boolean>(false)
+    const [showDeleteCellModal, setShowDeleteCellModal] = useState<boolean>(false)
     const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
+    const [showDeleteBoxes, setShowDeleteBoxes] = useState<boolean>(false)
+    const [numCellsMarked, setNumCellsMarked] = useState<number>(0)
+
 
     // fetch cell data from the db
     useEffect(() => {
@@ -55,7 +58,8 @@ export default function Grid() {
         <main className="relative w-full flex flex-row justify-center items-center">
             <Header 
                 showAddCellModal={setShowAddCellModal}
-                showDeleteCellModal={setShowDeleteCellModal}
+                setShowDeleteBoxes={setShowDeleteBoxes}
+                numCellsMarked={numCellsMarked}
             />
             <div className='relative w-full h-screen'>
                 <div
@@ -70,7 +74,9 @@ export default function Grid() {
                             icon={cell.icon}
                             iconCode={cell.iconCode}
                             currentValue={cell.currentValue}
+                            showDeleteBoxes={showDeleteBoxes}
                             lastUpdated={cell.lastUpdated}
+                            setNumCellsMarked={setNumCellsMarked}
                             onClick={ () => {
                                 setSelectedCell(cell)
                                 setShowUpdateCellModal(true)

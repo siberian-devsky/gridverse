@@ -19,7 +19,7 @@ router.post('/cells/create', createCell)
 // @ts-expect-error - ditto
 router.delete('/cells/delete/:name', deleteCellByName)
 // @ts-expect-error - ditto
-router.put('/cells/update/:name', updateCell)
+router.put('/cells/update/:id', updateCell)
 
 
 export default router

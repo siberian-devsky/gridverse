@@ -100,14 +100,14 @@ export async function createCell(req: Request, res: Response): Promise<Response>
 
 // PUT /cells - update an existing cell
 export async function updateCell(req: Request, res: Response): Promise<Response> {
-  const { name, icon, iconCode, currentValue } = req.body
+  const { id, name, icon, iconCode, currentValue } = req.body
 
   if (!name || !icon || !iconCode || currentValue === undefined) {
     return res.status(400).json({ error: "Missing required cell fields" })
   }
 
   try {
-    const record = await prisma.basicCell.findUnique({ where: { name } })
+    const record = await prisma.basicCell.findUnique({ where: { id: id } })
 
     if (!record) {
       return res.status(404).json({

@@ -1,19 +1,23 @@
-import { SetStateAction } from "react";
+import { SetStateAction } from "react"
 
-export type PostCellData = {
-  name: string;
-  icon: string;
-  iconCode: string;
-  currentValue: number;
+
+export type PutCellData = {
+  id: number
+  name: string
+  icon: string
+  iconCode: string
+  currentValue: number
 }
 
-export interface CellData {
-  id: number;
-  name: string;
-  icon: string;
-  iconCode: string;
-  currentValue: number;
-  lastUpdated: Date;
+export type PostCellData = Omit<PutCellData, 'id'>
+
+export type CellData = {
+  id: number
+  name: string
+  icon: string
+  iconCode: string
+  currentValue: number
+  lastUpdated: Date
 }
 
 export type CellModalProps = {

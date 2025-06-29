@@ -62,11 +62,14 @@ export default function AddCellModal( {setShowModal, setCells}: CellModalProps )
                 <button type='submit' className='w-3/4 bg-lime-600 text-black rounded-full tracking-widest py-1'>Add Cell</button>
             </form>
             <CloseButton setShowModal={setShowModal} />
-            {opStatus.message && 
-                <div className={`px-2 mt-4 ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}`}>
-                    {opStatus.message}
-                </div>
-            }
+            <div className={
+                    `px-2 mt-4 min-h-[24px] transition-opacity duration-200
+                    ${opStatus.message ? 'opacity-100 visible' : 'opacity-0 invisible'}
+                    ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}
+                `}
+                >
+                    {opStatus.message || '‎' /* invisible non-breaking space fallback */}
+            </div>
         </div>
     )
 }

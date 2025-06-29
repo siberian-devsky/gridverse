@@ -54,11 +54,14 @@ export default function DeleteCellModal( {setShowModal, setCells}: CellModalProp
                 <input name="name" type="text" className='w-3/4 h-8 border-[3px] px-4 border-pink-800 rounded-full' autoFocus/>               
                 <button type='submit' className='w-3/4 bg-pink-800 rounded-full tracking-widest py-1'>Delete Cell</button>
             </form>
-            {opStatus.message && 
-                <div className={opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}>
-                    {opStatus.message}
-                </div>
-            }
+            <div className={
+                `px-2 mt-4 min-h-[24px] transition-opacity duration-200
+                ${opStatus.message ? 'opacity-100 visible' : 'opacity-0 invisible'}
+                ${opStatus.status === 'ok' ? 'text-emerald-400' : 'text-red-500'}
+            `}
+            >
+                {opStatus.message || '‎' /* invisible non-breaking space fallback */}
+            </div>
         </div>
     )
 }

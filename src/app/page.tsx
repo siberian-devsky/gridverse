@@ -60,6 +60,7 @@ export default function Grid() {
                 showAddCellModal={setShowAddCellModal}
                 setShowDeleteBoxes={setShowDeleteBoxes}
                 numCellsMarked={numCellsMarked}
+                showDeleteBoxes={showDeleteBoxes}
             />
             <div className='relative w-full h-screen'>
                 <div

@@ -1,19 +1,21 @@
 'use client'
 import { SetStateAction } from "react"
+import clsx from "clsx"
 import ThemeToggleButton from "../Theme/ThemeToggleButton"
 
 type HeaderProps = {
     showAddCellModal: React.Dispatch<React.SetStateAction<boolean>>,
     setShowDeleteBoxes: React.Dispatch<SetStateAction<boolean>>,
     numCellsMarked: number
+    showDeleteBoxes: boolean,
 }
 
 export default function Header({
     showAddCellModal: showAddCellModal,
     setShowDeleteBoxes: setShowDeleteBoxes,
-    numCellsMarked
+    numCellsMarked,
+    showDeleteBoxes
 }: HeaderProps ) {
-    const cellsMarked = numCellsMarked > 0 ? true : false
 
     function handleClick() {
         if (numCellsMarked === 0) {
@@ -40,13 +42,25 @@ export default function Header({
                     >
                     Add Cell
                 </button>
-                <button onClick={() => handleClick()}
-                    className={`text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700
-                        ${!cellsMarked ? 'hover:bg-red-600' : 'bg-red-600'}
-                    `}
+                <button
+                    onClick={handleClick}
+                    className={clsx(
+                        'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700',
+                        {
+                            'bg-red-500 text-white': showDeleteBoxes && numCellsMarked > 0,
+                            'bg-yellow-400 text-black': showDeleteBoxes && numCellsMarked === 0,
+                            'hover:bg-red-500': !showDeleteBoxes,
+                        }
+                    )}
                 >
-                    {!cellsMarked ? 'Mark For Deletion' : 'CONFIRM DELETE'}
+                    {showDeleteBoxes && numCellsMarked > 0
+                        ? 'Confirm Delete'
+                        : showDeleteBoxes && numCellsMarked === 0
+                            ? 'Cancel'
+                            : 'Mark For Deletion'
+                    }
                 </button>
+
             </div>
             <ThemeToggleButton />
         </header>

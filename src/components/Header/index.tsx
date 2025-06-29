@@ -4,42 +4,18 @@ import clsx from "clsx"
 import ThemeToggleButton from "../Theme/ThemeToggleButton"
 
 type HeaderProps = {
-    showAddCellModal: React.Dispatch<React.SetStateAction<boolean>>,
+    showAddCellModal: React.Dispatch<SetStateAction<boolean>>,
     setShowDeleteBoxes: React.Dispatch<SetStateAction<boolean>>,
-    numCellsMarked: number
+    numCellsMarked: number,
     showDeleteBoxes: boolean,
 }
 
 export default function Header({
     showAddCellModal: showAddCellModal,
-    setShowDeleteBoxes: setShowDeleteBoxes,
+    setShowDeleteBoxes,
     numCellsMarked,
-    showDeleteBoxes
+    showDeleteBoxes,
 }: HeaderProps ) {
-
-    function handleClick() {
-        if (numCellsMarked === 0) {
-            // just show the boxes
-            setShowDeleteBoxes(prev => !prev)
-        } else if (numCellsMarked > 0) {
-            // if even one cell is marked the button will have changed 
-            // to a 'confirm delete' role - so delete all marked cells
-        } else {
-            // try and get here, code
-            return
-        }
-    }
-
-    function getButtonStyle() {
-        const base = 'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700'
-        if (showDeleteBoxes && numCellsMarked > 0)
-            return `${base} bg-red-500 text-white`
-        else if (showDeleteBoxes && numCellsMarked === 0)
-            return `${base} bg-yellow-400 text-black`
-        else
-            return `${base} hover:bg-red-500`
-    }
-
     return(
         <header 
             className="fixed top-0 left-0 z-50 border border-black bg-purple-500
@@ -53,9 +29,9 @@ export default function Header({
                     Add Cell
                 </button>
                 <button
-                    onClick={handleClick}
+                    onClick={() => setShowDeleteBoxes(prev => !prev)}
                     className={clsx(
-                        'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700',
+                        'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700 min-w-[120px]',
                         {
                             'bg-red-500 text-white': showDeleteBoxes && numCellsMarked > 0,
                             'bg-yellow-400 text-black': showDeleteBoxes && numCellsMarked === 0,
@@ -70,7 +46,6 @@ export default function Header({
                             : 'Mark For Deletion'
                     }
                 </button>
-
             </div>
             <ThemeToggleButton />
         </header>

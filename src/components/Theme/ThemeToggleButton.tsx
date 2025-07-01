@@ -3,7 +3,7 @@ import { useTheme } from "next-themes"
 import { LightModeOutlined, DarkModeOutlined } from '@mui/icons-material'
 import { useState, useEffect } from "react"
 
-function ThemeToggleButton() {
+export default function ThemeToggleButton() {
     const { theme, setTheme } = useTheme()
     const [isMounted, setIsMounted] = useState(false)
 
@@ -23,5 +23,3 @@ function ThemeToggleButton() {
         </button>
     )
 }
-
-export default ThemeToggleButton

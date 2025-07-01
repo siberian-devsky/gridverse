@@ -1,7 +1,8 @@
 'use client'
 import { SetStateAction } from "react"
-import clsx from "clsx"
 import ThemeToggleButton from "../Theme/ThemeToggleButton"
+import AnimatedButton from "./AnimatedButton"
+// import HomeGrownToggle from "../Theme/HomeGrownToggle"
 
 type HeaderProps = {
     showAddCellModal: React.Dispatch<SetStateAction<boolean>>,
@@ -11,10 +12,10 @@ type HeaderProps = {
 }
 
 export default function Header({
-    showAddCellModal: showAddCellModal,
+    showAddCellModal,
+    showDeleteBoxes,
     setShowDeleteBoxes,
     numCellsMarked,
-    showDeleteBoxes,
 }: HeaderProps ) {
     return(
         <header 
@@ -22,31 +23,16 @@ export default function Header({
                 w-screen h-16 flex flex-row items-center justify-between
                 px-4 py-2"
         >
-            <div className="flex gap-4">
-                <button className="text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700 hover:bg-lime-600"
-                    onClick={() => showAddCellModal(true)}
-                    >
-                    Add Cell
-                </button>
-                <button
-                    onClick={() => setShowDeleteBoxes(prev => !prev)}
-                    className={clsx(
-                        'text-xs w-auto p-2 rounded-2xl border-[1px] border-slate-700 min-w-[120px]',
-                        {
-                            'bg-red-500 text-white': showDeleteBoxes && numCellsMarked > 0,
-                            'bg-yellow-400 text-black': showDeleteBoxes && numCellsMarked === 0,
-                            'hover:bg-red-500': !showDeleteBoxes,
-                        }
-                    )}
+            <button className="text-sm w-auto p-2 rounded-2xl text-white bg-lime-600"
+                onClick={() => showAddCellModal(true)}
                 >
-                    {showDeleteBoxes && numCellsMarked > 0
-                        ? 'Confirm Delete'
-                        : showDeleteBoxes && numCellsMarked === 0
-                            ? 'Cancel'
-                            : 'Mark For Deletion'
-                    }
-                </button>
-            </div>
+                New Cell
+            </button>
+            <AnimatedButton
+                showDeleteBoxes={showDeleteBoxes}
+                setShowDeleteBoxes={setShowDeleteBoxes}
+                numCellsMarked={numCellsMarked}
+            />
             <ThemeToggleButton />
         </header>
     )

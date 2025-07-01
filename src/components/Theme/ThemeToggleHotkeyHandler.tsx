@@ -2,7 +2,7 @@
 import { useEffect } from "react"
 import { useTheme } from "next-themes"
 
-export default function KeyHandler() {
+export default function ThemeToggleHotkeyHandler() {
     const { theme, setTheme, resolvedTheme } = useTheme()
     
     useEffect(() => {

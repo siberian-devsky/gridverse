@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from 'next-themes';
-import KeyHandler from '@/components/Theme/ThemeToggleHotkeyHandler';
+import ThemeToggleHotkeyHandler from '@/components/Theme/ThemeToggleHotkeyHandler';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body className={'w-full h-full flex flex-col items-center justify-center'}>
         <ThemeProvider attribute='class'>
-          <KeyHandler />
+          <ThemeToggleHotkeyHandler />
           {children}
         </ThemeProvider>
       </body>

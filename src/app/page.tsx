@@ -14,7 +14,7 @@ export default function Grid() {
     const [showDeleteCellModal, setShowDeleteCellModal] = useState<boolean>(false)
     const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
     const [showDeleteBoxes, setShowDeleteBoxes] = useState<boolean>(false)
-    const [numCellsMarked, setNumCellsMarked] = useState<number>(0)
+    const [numCellsChecked, setNumCellsChecked] = useState<number>(0)
 
 
     // fetch cell data from the db
@@ -59,7 +59,7 @@ export default function Grid() {
             <Header 
                 showAddCellModal={setShowAddCellModal}
                 setShowDeleteBoxes={setShowDeleteBoxes}
-                numCellsMarked={numCellsMarked}
+                numCellsChecked={numCellsChecked}
                 showDeleteBoxes={showDeleteBoxes}
             />
             <div className='relative w-full h-screen'>
@@ -77,7 +77,8 @@ export default function Grid() {
                             currentValue={cell.currentValue}
                             showDeleteBoxes={showDeleteBoxes}
                             lastUpdated={cell.lastUpdated}
-                            setNumCellsMarked={setNumCellsMarked}
+                            numCellsChecked={numCellsChecked}
+                            setNumCellsChecked={setNumCellsChecked}
                             onClick={ () => {
                                 setSelectedCell(cell)
                                 setShowUpdateCellModal(true)

@@ -1,20 +1,24 @@
 'use client'
 import clsx from 'clsx'
 import { CellData } from '@/types';
-import { SetStateAction, useEffect, useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
 type CellProps = CellData & {
     onClick?: () => void
     showDeleteBoxes: boolean
-    setNumCellsMarked: React.Dispatch<SetStateAction<number>>
+    numCellsChecked: number
+    setNumCellsChecked: React.Dispatch<SetStateAction<number>>
 }
 
 export default function Cell({
-    id, name, icon, onClick, showDeleteBoxes, setNumCellsMarked
+    id,
+    name,
+    icon,
+    onClick,
+    showDeleteBoxes,
+    setNumCellsChecked
 }: CellProps) {
     const [checked, setChecked] = useState<boolean>(false)
-    
-    useEffect( () => console.log(checked) , [checked])
 
     if (id === undefined || name === undefined || icon === undefined) return null
 
@@ -23,30 +27,35 @@ export default function Cell({
         e.stopPropagation()
 
         const input = e.target as HTMLInputElement
-        setChecked(input.checked)
+        if (showDeleteBoxes) { // force the cell to uncheck itself
+            setChecked(input.checked)
+        } else {
+            setChecked(false)
+        }
 
-       setNumCellsMarked( checked ? (prev) => prev - 1 : (prev) => prev + 1 )
+       setNumCellsChecked( checked ? (prev) => prev - 1 : (prev) => prev + 1 )
     }
 
     return (
     <button
         id={id.toString()}
         className={clsx(
+        'relative',
         'w-[180px]',
         'aspect-square',
         'relative',
         'text-green-500',
         'border-4',
         'rounded-2xl',
-        checked ? 'border-red-600' : 'border-blue-600'
+        checked && showDeleteBoxes ? 'border-red-600' : 'border-blue-600'
         )}
         onClick={onClick}
     >
         <div className="flex flex-col gap-1.5">
-        <h1 className="text-2xl">{name}</h1>
-        <h2 className="text-4xl">{icon}</h2>
+        <h1 className="text-2xl">{checked ? 'true' : 'false'}</h1>
+        <h2 className="text-4xl">{showDeleteBoxes? 'true' : 'false'}</h2>
         </div>
-
+        <div className='absolute top-1/2 left-1/2 w-full h-full animate-ping text-lime-400'></div>
         {showDeleteBoxes && (
         <div className="absolute top-4 right-4">
             <input

@@ -44,7 +44,8 @@ export default function AnimatedButton({
                         'absolute left-0 top-0 min-w-[120px] text-sm p-2 rounded-2xl bg-red-500',
                         {
                             'animate-slideright': showDeleteBoxes && numCellsChecked > 0,
-                            'animate-slideleft': numCellsChecked < 1,
+                            'animate-slideleft': showDeleteBoxes && numCellsChecked === 0,
+                            'translate-x-0': !showDeleteBoxes, // Reset position when marking is disabled
                         }
                     )}
                 >

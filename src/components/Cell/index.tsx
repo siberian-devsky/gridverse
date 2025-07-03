@@ -65,7 +65,6 @@ export default function Cell({
         <h1 className='text-2xl'>{checked ? 'true' : 'false'}</h1>
         <h2 className='text-4xl'>{icon}</h2>
         </div>
-        <div className='absolute top-1/2 left-1/2 w-full h-full animate-ping text-lime-400'></div>
         {showDeleteBoxes && (
         <div className='absolute top-4 right-4'>
             <input

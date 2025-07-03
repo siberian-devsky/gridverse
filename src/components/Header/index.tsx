@@ -1,8 +1,7 @@
 'use client'
 import { SetStateAction } from "react"
-import ThemeToggleButton from "../Theme/ThemeToggleButton"
 import AnimatedButton from "./AnimatedButton"
-// import HomeGrownToggle from "../Theme/HomeGrownToggle"
+import ThemeSlider from "../Theme/ThemeSlider"
 
 type HeaderProps = {
     showAddCellModal: React.Dispatch<SetStateAction<boolean>>,
@@ -38,7 +37,7 @@ export default function Header({
                     resetAllCellStates={resetAllCellStates}
                 />
             </div>
-            <ThemeToggleButton />
+            <ThemeSlider />
         </header>
     )
 }

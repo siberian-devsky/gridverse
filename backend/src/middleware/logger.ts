@@ -6,11 +6,10 @@ export default function logger(req: Request, res: Response, next: () => void) {
     
     console.log('')
     console.log(`[${new Date().toISOString()}] [${method}] [${url}]`)
-    console.log(`response: ${res.statusMessage}`)
-
-    res.on('finish', () => {
-        console.log(`Responded with status ${res.statusCode}`);
-    }); 
+    
+    // res.on('finish', () => {
+    //     console.log(`Responded with status ${res.statusCode} for ${req.method}:${req.url}`);
+    // }); 
     
     next()
 }

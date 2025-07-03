@@ -15,6 +15,18 @@ export default function Grid() {
     const [selectedCell, setSelectedCell] = useState<CellData | null>(null)
     const [showDeleteBoxes, setShowDeleteBoxes] = useState<boolean>(false)
     const [numCellsChecked, setNumCellsChecked] = useState<number>(0)
+    const [shouldReset, setShouldReset] = useState<boolean>(false)
+
+    // Function to reset all cell checked states
+    const resetAllCellStates = () => {
+        setNumCellsChecked(0)
+        setShouldReset(true) // Set to true to trigger reset
+    }
+
+    // Function to acknowledge reset has been processed
+    const acknowledgeReset = () => {
+        setShouldReset(false)
+    }
 
 
     // fetch cell data from the db
@@ -61,6 +73,7 @@ export default function Grid() {
                 setShowDeleteBoxes={setShowDeleteBoxes}
                 numCellsChecked={numCellsChecked}
                 showDeleteBoxes={showDeleteBoxes}
+                resetAllCellStates={resetAllCellStates}
             />
             <div className='relative w-full h-screen'>
                 <div
@@ -69,7 +82,7 @@ export default function Grid() {
                 >
                     {cells.map((cell, index) => (
                         <Cell
-                            key={index}
+                            key={`${index}-${shouldReset}`}
                             id={cell.id}
                             name={cell.name}
                             icon={cell.icon}
@@ -77,8 +90,9 @@ export default function Grid() {
                             currentValue={cell.currentValue}
                             showDeleteBoxes={showDeleteBoxes}
                             lastUpdated={cell.lastUpdated}
-                            numCellsChecked={numCellsChecked}
                             setNumCellsChecked={setNumCellsChecked}
+                            shouldReset={shouldReset}
+                            acknowledgeReset={acknowledgeReset}
                             onClick={ () => {
                                 setSelectedCell(cell)
                                 setShowUpdateCellModal(true)

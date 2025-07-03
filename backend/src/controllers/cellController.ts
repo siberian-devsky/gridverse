@@ -1,28 +1,28 @@
-import { Request, Response } from "express";
+import { RequestHandler } from "express";
 import { PrismaClient } from "../generated/prisma";
 
 const prisma = new PrismaClient()
 
 // GET /cells - get all cells
-export async function getAllCells(req: Request, res: Response): Promise<Response> {
+export const getAllCells: RequestHandler = async (req, res) => {
   try {
     const cellData = await prisma.basicCell.findMany()
 
     if (!cellData) {
-      return res.status(404).json({
+      res.status(404).json({
         status: 404,
         message: 'Cells not found'
       })
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       status: 200,
       message: 'get all cells ok',
       data: cellData
     })
   } catch (err) {
     console.error("getAllCells error:", err)
-    return res.status(500).json({
+    res.status(500).json({
       status: 500,
       message: "Internal Server Error"
     })
@@ -30,25 +30,25 @@ export async function getAllCells(req: Request, res: Response): Promise<Response
 }
 
 // GET /cells/:name - get one cell by name
-export async function getOneCellByName(req: Request, res: Response): Promise<Response> {
+export const getOneCellByName: RequestHandler = async (req, res) => {
   try {
     const name = req.params.name
     const cell = await prisma.basicCell.findUnique({ where: { name } })
 
     if (!cell) {
-      return res.status(404).json({
+      res.status(404).json({
         status: 404,
         message: `Cell '${name}' not found`
       })
     }
 
-    return res.status(200).json({
+    res.status(200).json({
       status: 200,
-      message: 'Cells fetched',
+      message: cell,
     })
   } catch (err) {
     console.error("getOneCellByName error:", err)
-    return res.status(500).json({
+    res.status(500).json({
       status: 500,
       mesage: "Internal Server Error"
     })
@@ -56,12 +56,12 @@ export async function getOneCellByName(req: Request, res: Response): Promise<Res
 }
 
 // POST /cells - add a new cell
-export async function createCell(req: Request, res: Response): Promise<Response> {
+export const createCell: RequestHandler = async (req, res) => {
   const { name, icon, iconCode, currentValue } = req.body
 
   // Validate payload
   if (!name || !icon || !iconCode || currentValue === undefined) {
-    return res.status(400).json({
+    res.status(400).json({
       status: 400,
       message: "Missing required cell fields"
     })
@@ -76,14 +76,14 @@ export async function createCell(req: Request, res: Response): Promise<Response>
         data: { name, icon, iconCode, currentValue }
       })
   
-      return res.status(201).json({
+      res.status(201).json({
         status: 201,
         message: `${name} created`,
         data: newCell
       })
 
     } else {
-      return res.status(409).json({
+      res.status(409).json({
         status: 409,
         message: `${name} already exists`
       })
@@ -91,7 +91,7 @@ export async function createCell(req: Request, res: Response): Promise<Response>
 
   } catch (err) {
     console.error("createCell error:", err)
-    return res.status(500).json({
+    res.status(500).json({
       status: 500,
       message: "Internal Server Error"
     })
@@ -99,21 +99,22 @@ export async function createCell(req: Request, res: Response): Promise<Response>
 }
 
 // PUT /cells - update an existing cell
-export async function updateCell(req: Request, res: Response): Promise<Response> {
+export const updateCell: RequestHandler = async (req, res) => {
   const { id, name, icon, iconCode, currentValue } = req.body
 
   if (!name || !icon || !iconCode || currentValue === undefined) {
-    return res.status(400).json({ error: "Missing required cell fields" })
+    res.status(400).json({ error: "Missing required cell fields" })
   }
 
   try {
     const record = await prisma.basicCell.findUnique({ where: { id: id } })
 
     if (!record) {
-      return res.status(404).json({
+      res.status(404).json({
         status: 404,
         message: `Cell '${name}' not found`
       })
+      return
     }
 
     const updated = await prisma.basicCell.update({
@@ -125,14 +126,14 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
         currentValue: currentValue || record.currentValue
       }
     })
-      return res.status(200).json({
+      res.status(200).json({
         status: "Cell updated",
         message: {newData: updated}
       })
 
   } catch (err) {
     console.error("updateCell error:", err)
-    return res.status(500).json({
+    res.status(500).json({
       status: 500,
       message: "Internal Server Error"
     })
@@ -140,12 +141,12 @@ export async function updateCell(req: Request, res: Response): Promise<Response>
 }
 
 // DELETE /cells/delete/:name - delete cell by name
-export async function deleteCellByName(req: Request, res: Response): Promise<Response> {
+export const deleteCellByName: RequestHandler = async (req, res) => {
   const { name } = req.body
   console.debug(`name: ${name}`)
 
   if (!name) {
-    return res.status(400).json({
+    res.status(400).json({
       status: 400,
       message: "no name was input for me to delete",
     })
@@ -157,7 +158,7 @@ export async function deleteCellByName(req: Request, res: Response): Promise<Res
       })
 
       console.log(`${name} was purged`)
-      return res.status(200).json({
+      res.status(200).json({
           status: 200,
           message: `${name} deleted`,
           data: deleted
@@ -166,14 +167,14 @@ export async function deleteCellByName(req: Request, res: Response): Promise<Res
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err.code === 'P2025') {
-        return res.status(404).json({
+        res.status(404).json({
             status: 404,
             message: `${name} does not exist`
         })
     }
 
       console.error(err)
-      return res.status(500).json({
+      res.status(500).json({
           status: 500,
           message: 'Unexpected error during delete'
       })

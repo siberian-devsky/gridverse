@@ -9,6 +9,7 @@ type HeaderProps = {
     setShowDeleteBoxes: React.Dispatch<SetStateAction<boolean>>,
     numCellsChecked: number,
     showDeleteBoxes: boolean,
+    resetAllCellStates: () => void,
 }
 
 export default function Header({
@@ -16,6 +17,7 @@ export default function Header({
     showDeleteBoxes,
     setShowDeleteBoxes,
     numCellsChecked,
+    resetAllCellStates,
 }: HeaderProps ) {
     return(
         <header 
@@ -33,6 +35,7 @@ export default function Header({
                     showDeleteBoxes={showDeleteBoxes}
                     setShowDeleteBoxes={setShowDeleteBoxes}
                     numCellsChecked={numCellsChecked}
+                    resetAllCellStates={resetAllCellStates}
                 />
             </div>
             <ThemeToggleButton />

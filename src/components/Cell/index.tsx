@@ -78,7 +78,7 @@ export default function Cell({
                 'border-red-600',
                 'rounded-full',
                 'cursor-pointer',
-                checked && 'bg-red-500'
+                checked && 'bg-red-500',     
             )}
             />
         </div>

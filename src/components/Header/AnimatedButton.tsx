@@ -29,7 +29,7 @@ export default function AnimatedButton({
                     className={clsx(
                         'relative z-10 left-0 top-0 text-sm p-2 rounded-2xl border-white min-w-[120px] whitespace-nowrap',
                         {
-                            'bg-white hover:bg-red-500 text-black': !showDeleteBoxes,
+                            'bg-white text-black': !showDeleteBoxes,
                             'bg-yellow-400 text-black': showDeleteBoxes,
                         }
                     )}
@@ -42,12 +42,10 @@ export default function AnimatedButton({
                 <button 
                     className={clsx(
                         'absolute left-0 top-0 min-w-[120px] text-sm p-2 rounded-2xl bg-red-500',
-                        {
-                            'animate-slideright': showDeleteBoxes && numCellsChecked > 0,
-                            'animate-slideleft': showDeleteBoxes && numCellsChecked === 0,
-                            'translate-x-0': !showDeleteBoxes, // Reset position when marking is disabled
-                        }
-                    )}
+                        showDeleteBoxes && numCellsChecked > 0 && 'translate-x-[110%] duration-200 ease-linear',
+                        showDeleteBoxes && numCellsChecked === 0 && 'trnaslate-x-0 duration-200 ease-in',
+                        !showDeleteBoxes && 'trnaslate-x-0 duration-200 ease-in'
+                    )}   
                 >
                     Confirm
                 </button>

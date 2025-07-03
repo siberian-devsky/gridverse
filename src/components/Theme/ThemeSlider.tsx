@@ -30,9 +30,6 @@ export default function ThemeSlider() {
         'overflow-hidden',
         'rounded-full',
         'cursor-pointer',
-        // 'transition-all',
-        // 'ease-in',
-        // 'duration-400',
         'border',
         'border-purple-500',
         isDark ? 'bg-slate-800' : 'bg-white'

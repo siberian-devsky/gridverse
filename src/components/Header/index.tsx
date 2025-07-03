@@ -20,12 +20,13 @@ export default function Header({
 }: HeaderProps ) {
     return(
         <header 
-            className="fixed top-0 left-0 z-50 border border-black bg-purple-500
+            className="fixed top-0 left-0 z-50 border border-black bg-slate-600
                 w-screen h-16 flex flex-row items-center justify-between
                 px-4 py-2"
         >
             <div className="flex flex-row gap-4">
-                <button className="text-sm w-auto p-2 rounded-2xl text-white bg-lime-600"
+                <button
+                    className="text-sm w-auto p-2 rounded-2xl text-white bg-lime-600"
                     onClick={() => showAddCellModal(true)}
                     >
                     New Cell

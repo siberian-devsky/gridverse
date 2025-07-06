@@ -2,26 +2,30 @@
 import clsx from 'clsx'
 import { CellData } from '@/types';
 import { SetStateAction, useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 
 type CellProps = CellData & {
-    onClick?: () => void
+    selectCellAndShowModal?: () => void
     showDeleteBoxes: boolean
     setNumCellsChecked: React.Dispatch<SetStateAction<number>>
     shouldReset: boolean
     acknowledgeReset: () => void
+    setCellsToDelete: React.Dispatch<SetStateAction<string[]>>
 }
 
 export default function Cell({
     id,
-    // name,
+    name,
     icon,
-    onClick,
+    selectCellAndShowModal,
     showDeleteBoxes,
     setNumCellsChecked,
     shouldReset,
-    acknowledgeReset
+    acknowledgeReset,
+    setCellsToDelete
 }: CellProps) {
     const [checked, setChecked] = useState<boolean>(false)
+    const {theme, setTheme} = useTheme()
 
     // Reset checked state when shouldReset becomes true
     useEffect(() => {
@@ -29,6 +33,7 @@ export default function Cell({
             setChecked(false)
             acknowledgeReset() // Notify parent that reset has been processed
         }
+
     }, [shouldReset, acknowledgeReset])
 
     function handleClick(e: React.MouseEvent<HTMLInputElement>) {
@@ -44,12 +49,19 @@ export default function Cell({
         } else {
             setChecked(false)
         }
+
+        setCellsToDelete(prev =>
+            prev.includes(name)
+                ? prev.filter(n => n !== name)
+                : [...prev, name]
+        )
     }
 
     return (
     <button
         id={id.toString()}
         className={clsx(
+        checked && 'overflow-x-hidden',
         'relative',
         'w-[180px]',
         'aspect-square',
@@ -59,26 +71,27 @@ export default function Cell({
         'rounded-2xl',
         checked && showDeleteBoxes ? 'border-red-600' : 'border-blue-600'
         )}
-        onClick={onClick}
+        onClick={selectCellAndShowModal}
     >
         <div className='flex flex-col gap-1.5'>
-        <h1 className='text-2xl'>{checked ? 'true' : 'false'}</h1>
+        <h1 className='text-2xl'>{name}</h1>
         <h2 className='text-4xl'>{icon}</h2>
         </div>
         {showDeleteBoxes && (
-        <div className='absolute top-4 right-4'>
+        <div className='absolute -top-2 -right-2'>
             <input
             type='checkbox'
             onClick={handleClick}
             className={clsx(
                 'appearance-none',
-                'w-4',
-                'h-4',
+                'w-6',
+                'h-6',
                 'border-2',
-                'border-red-600',
                 'rounded-full',
                 'cursor-pointer',
-                checked && 'bg-red-500',     
+                'border-red-500',
+                theme === 'dark' ? 'bg-black': 'bg-white',
+                checked && 'bg-red-500 animate-ping',     
             )}
             />
         </div>

@@ -1,25 +1,25 @@
-'use client'
-import { useTheme } from "next-themes"
-import { LightModeOutlined, DarkModeOutlined } from '@mui/icons-material'
-import { useState, useEffect } from "react"
+"use client";
+import { useTheme } from "next-themes";
+import { LightModeOutlined, DarkModeOutlined } from "@mui/icons-material";
+import { useState, useEffect } from "react";
 
 export default function ThemeToggleButton() {
-    const { theme, setTheme } = useTheme()
-    const [isMounted, setIsMounted] = useState(false)
+    const { theme, setTheme } = useTheme();
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        setIsMounted(true)
-    }, [])
+        setIsMounted(true);
+    }, []);
 
-    if (!isMounted) return null
+    if (!isMounted) return null;
 
     const toggleTheme = () => {
-        setTheme(theme === 'dark' ? 'light' : 'dark')
-    }
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
 
     return (
         <button onClick={toggleTheme}>
-            {theme === 'dark' ? <LightModeOutlined /> : <DarkModeOutlined />}
+            {theme === "dark" ? <LightModeOutlined /> : <DarkModeOutlined />}
         </button>
-    )
+    );
 }

@@ -36,21 +36,21 @@ export default function ThemeSlider() {
       )}
     >
       <div className={clsx(
-          'w-full',
-          'flex',
-          'flex-row',
-          'items-center',
-          'justify-start',
+        'w-full',
+        'flex',
+        'flex-row',
+        'items-center',
+        'justify-start',
       )}>
         <div className={clsx(
-            'w-3',
-            'h-3',
-            'rounded-full',
-            isDark
+          'w-3',
+          'h-3',
+          'rounded-full',
+          isDark
             ? 'bg-white translate-x-1 duration-200 ease-in'
             : 'bg-black translate-x-[260%] duration-200 ease-in'
-          )}
-          ></div>
+        )}
+        ></div>
       </div>
     </div>
   )

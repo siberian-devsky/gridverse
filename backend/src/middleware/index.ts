@@ -3,7 +3,6 @@ import cors from 'cors'
 import logger from "./logger";
 import setHeaders from "./setHeaders";
 
-
 export default function initMiddleware( app: Application ) {
     app.use(logger)
     app.use(cors())

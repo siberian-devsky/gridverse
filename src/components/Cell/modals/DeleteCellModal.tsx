@@ -35,9 +35,9 @@ export default function DeleteCellModal( {setShowModal, setCells}: CellModalProp
         const form = e.currentTarget
 
         const formData = new FormData(form)
-        const name = formData.get('name')?.toString().trim() || 'testThisGetsRidOfTheTypeErrorOnLIne51'
+        const name = formData?.get('name')?.toString().trim()
 
-        if (!formData || name === 'testThisGetsRidOfTheTypeErrorOnLIne51') {
+        if (!name) {
             setOpStatus( {message: 'please enter a name', status: 'nok'} )
             return { error: opStatus}
         } else {

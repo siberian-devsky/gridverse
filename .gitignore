@@ -44,4 +44,5 @@ next-env.d.ts
 backend/.env
 backend/src/generated/prisma
 backend/src/tests/utils
-backend/node_modules
+backend/node_modules.vscode/
+.vscode/

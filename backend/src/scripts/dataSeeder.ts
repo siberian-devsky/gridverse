@@ -1,6 +1,6 @@
 import { exit } from "process";
 import { PrismaClient } from "../../src/generated/prisma";
-import planets from "./data.json"
+import planets from "./data.json";
 
 const prisma = new PrismaClient();
 

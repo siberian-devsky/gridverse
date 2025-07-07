@@ -31,14 +31,6 @@ export default function Grid() {
 
     // initial page load - fetch cell data from the db
     useEffect(() => {
-        // check cache
-        // TODO: add ZOD for more robust runtime checking plus whatever I find for cacheing
-        const cachedString = localStorage.getItem('cache')  // info: localStorage.getItem => string | null
-
-        //? is this the best way to do this
-        if (cachedString) {
-            setCells(JSON.parse(cachedString));
-        } else {
             const fetchAllCells = async () => {
                 try {
                     const resp = await fetch("http://localhost:8080/api/v1/cells");
@@ -52,8 +44,7 @@ export default function Grid() {
                 }
             };
             fetchAllCells();
-        }
-    }, []);
+    }, [])
 
     // bg behavior on modal
     useEffect(() => {
